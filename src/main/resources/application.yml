@@ -1,0 +1,26 @@
+cloudinary:
+  cloud-name: piensa
+  api-key: 697157638332511
+  api-secret: fQhHramPoTeRhHpomyaz71lPipo
+server:
+  port: 8081
+  error:
+    include-message: always
+#Configuracion de spring
+spring:
+  #Configuracion de migracion
+  flyway:
+    enabled: true
+    baselineVersion: 1
+    locations:
+      classpath: db/migration
+    sqlMigrationSuffixes: .sql
+    baselineOnMigrate: true
+    sqlMigrationPrefix: V
+    schemas: public
+
+  datasource:
+    url: jdbc:postgresql://hansken.db.elephantsql.com/spsejugy?socketTimeout=3
+    username: spsejugy
+    password: Nf1xU0anmIDyTURy3O3AXULZvP7-2lye
+    driverClassName: org.postgresql.Driver
