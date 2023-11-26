@@ -12,5 +12,5 @@ class Product {
     var description: String? = null
     var brand: String? = null
     var price: Double? = null
-    var stok: String? = null
+    var stok: Int? = null
 }

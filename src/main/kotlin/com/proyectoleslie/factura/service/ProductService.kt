@@ -17,9 +17,9 @@ class ProductService {
     }
 
     fun save(product: Product): Product {
-        try{
-            product.stok?.takeIf { it.trim().isNotEmpty() }
-                ?: throw Exception("Stock no debe ser menor a cero")
+        try {
+            product.stok?.takeIf { it >= 0 }
+                ?: throw IllegalArgumentException("Stock no debe ser menor a cero")
             return productRepository.save(product)
         }
         catch (ex:Exception){
