@@ -3,6 +3,10 @@ package com.proyectoleslie.factura.service
 import com.proyectoleslie.factura.model.Client
 import com.proyectoleslie.factura.repository.ClientRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Example
+import org.springframework.data.domain.ExampleMatcher
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
@@ -12,8 +16,11 @@ class ClientService {
     @Autowired
     lateinit var clientRepository: ClientRepository
 
-    fun list ():List<Client>{
-        return clientRepository.findAll()
+    fun list (pageable: Pageable,client: Client):Page<Client>{
+        val matcher = ExampleMatcher.matching()
+            .withIgnoreNullValues()
+            .withMatcher(("field"), ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+        return clientRepository.findAll(Example.of(client, matcher), pageable)
     }
 
     fun save(client: Client): Client {

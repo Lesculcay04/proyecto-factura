@@ -1,8 +1,14 @@
 package com.proyectoleslie.factura.service
 
+import com.proyectoleslie.factura.dto.ProductDto
+import com.proyectoleslie.factura.mapper.ProductMapper
 import com.proyectoleslie.factura.model.Product
 import com.proyectoleslie.factura.repository.ProductRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Example
+import org.springframework.data.domain.ExampleMatcher
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
@@ -12,10 +18,24 @@ class ProductService {
     @Autowired
     lateinit var productRepository: ProductRepository
 
-    fun list ():List<Product>{
-        return productRepository.findAll()
+    fun list (pageable: Pageable,product: Product):Page<Product>{
+        val matcher = ExampleMatcher.matching()
+            .withIgnoreNullValues()
+            .withMatcher(("field"), ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+        return productRepository.findAll(Example.of(product, matcher), pageable)
     }
+    fun listDto(): List<ProductDto> {
+        val productList = productRepository.findAll()
 
+        val productDtoList: MutableList<ProductDto> = mutableListOf()
+
+        for (product in productList) {
+            val productDto = ProductMapper.mapToDto(product)
+            productDtoList.add(productDto)
+        }
+
+        return productDtoList
+    }
     fun save(product: Product): Product {
         try {
             product.stok?.takeIf { it >= 0 }

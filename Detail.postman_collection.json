@@ -1,0 +1,120 @@
+{
+	"info": {
+		"_postman_id": "eecd0173-89a6-4aa4-8e6c-c3c77aba43d2",
+		"name": "Detail",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30201820",
+		"_collection_link": "https://dark-water-245877.postman.co/workspace/Factura~c6c9f961-ad61-41ea-9bfe-ac143b00bbf4/collection/30201820-eecd0173-89a6-4aa4-8e6c-c3c77aba43d2?action=share&source=collection_link&creator=30201820"
+	},
+	"item": [
+		{
+			"name": "localhost:8081/detail",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8081/detail",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"detail"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8081/detail",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8081/detail",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"detail"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8081/detail",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8081/detail",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"detail"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8081/detail",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8081/detail",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"detail"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8081/detail/",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8081/detail/",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"detail",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
