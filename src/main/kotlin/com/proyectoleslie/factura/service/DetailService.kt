@@ -36,6 +36,14 @@ class DetailService {
                     throw ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found for id: $productId")
                 }
             }
+            val response = detailRepository.save(detail)
+            //logica disminuir detail
+            val product = productRepository.findById(detail.productId)
+            product?.apply{
+                stok = stok?.minus(detail.quantity!!)
+            }
+            productRepository.save(product!!)
+            return response
 
             // Save the detail
             return detailRepository.save(detail)
@@ -43,13 +51,24 @@ class DetailService {
             // Handle exceptions by wrapping them in a ResponseStatusException
             throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error processing the request", ex)
         }
+
     }
+
     fun update(detail: Detail): Detail {
         try {
             detailRepository.findById(detail.id)
                 ?: throw Exception("ID no existe")
 
-            return detailRepository.save(detail)
+            return detailRepository.update(detail)
+
+            val response = detailRepository.update(detail)
+            //logica de cambio en caso de que modifique
+            val product = productRepository.findById(detail.productId)
+            product?.apply{
+                stok = stok?.minus(detail.quantity!!)
+            }
+            productRepository.save(product!!)
+            return response
         }
         catch (ex:Exception){
             throw ResponseStatusException(HttpStatus.NOT_FOUND,ex.message)
