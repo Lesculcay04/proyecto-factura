@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS product(
 CREATE TABLE IF NOT EXISTS detail(
     id SERIAL PRIMARY KEY,
     quantity INTEGER,
-    price INT,
+    price DECIMAL(10,2),
     invoice_id INT NOT NULL,
     product_id INT NOT NULL,
     FOREIGN KEY (invoice_id) REFERENCES invoice(id),

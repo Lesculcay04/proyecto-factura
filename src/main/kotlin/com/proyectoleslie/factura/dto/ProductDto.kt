@@ -4,3 +4,4 @@ class ProductDto (
     var id: Long?,
     var descriptionBrand: String?
     )
+

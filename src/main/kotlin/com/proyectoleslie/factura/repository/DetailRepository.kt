@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface DetailRepository: JpaRepository<Detail, Long?> {
     fun findById (id: Long?): Detail?
-
+   fun findByInvoiceId(invoiceId: Long?): List<Detail>
 }

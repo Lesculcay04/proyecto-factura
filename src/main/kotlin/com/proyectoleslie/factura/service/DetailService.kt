@@ -7,6 +7,7 @@ import com.proyectoleslie.factura.repository.ProductRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
+import kotlin.collections.*
 import org.springframework.web.server.ResponseStatusException
 
 @Service
@@ -35,7 +36,7 @@ class DetailService {
                 if (!productRepository.existsById(productId)) {
                     throw ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found for id: $productId")
                 }
-            }
+            }//codigo hecho por mi.
             val response = detailRepository.save(detail)
             //logica disminuir detail
             val product = productRepository.findById(detail.productId)
@@ -43,10 +44,26 @@ class DetailService {
                 stok = stok?.minus(detail.quantity!!)
             }
             productRepository.save(product!!)
-            return response
 
+            //productos que se multipliquen y muestre en total
+            val listDetail = detailRepository.findByInvoiceId(detail.invoiceId)
+
+                if (listDetail != null) {
+                    var suma = 0.0
+
+                    listDetail.forEach { element ->
+                        suma += ((element.price ?: 0L).toDouble() * (element.quantity ?: 0L)).toDouble()
+                        // Multiplico y agrego a la suma
+                }
+                val invoiceToUp = invoiceRepository.findById(detail.invoiceId)
+                invoiceToUp?.apply {
+                    total = suma.toDouble()
+                }
+                invoiceRepository.save(invoiceToUp!!)
+            }
             // Save the detail
             return detailRepository.save(detail)
+
         } catch (ex: Exception) {
             // Handle exceptions by wrapping them in a ResponseStatusException
             throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error processing the request", ex)
@@ -59,16 +76,17 @@ class DetailService {
             detailRepository.findById(detail.id)
                 ?: throw Exception("ID no existe")
 
-            return detailRepository.update(detail)
+            return detailRepository.save(detail)
 
-            val response = detailRepository.update(detail)
-            //logica de cambio en caso de que modifique
+            val response = detailRepository.save(detail)
+            //logica disminuir detail
             val product = productRepository.findById(detail.productId)
             product?.apply{
-                stok = stok?.minus(detail.quantity!!)
+                stok = stok?.plus(detail.quantity!!)
             }
             productRepository.save(product!!)
             return response
+
         }
         catch (ex:Exception){
             throw ResponseStatusException(HttpStatus.NOT_FOUND,ex.message)
@@ -91,9 +109,15 @@ class DetailService {
 
     fun delete (id: Long?):Boolean?{
         try{
-            val response = detailRepository.findById(id)
-                ?: throw Exception("ID no existe")
+            val detail = detailRepository.findById(id)
+                ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "ID no existe")
+            val product = productRepository.findById(detail.productId)
+            product?.apply {
+                stok = stok?.plus(detail.quantity!!)
+            }
+            productRepository.save(product!!)
             detailRepository.deleteById(id!!)
+
             return true
         }
         catch (ex:Exception){
