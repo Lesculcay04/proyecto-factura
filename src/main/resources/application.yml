@@ -1,7 +1,3 @@
-cloudinary:
-  cloud-name: piensa
-  api-key: 697157638332511
-  api-secret: fQhHramPoTeRhHpomyaz71lPipo
 server:
   port: 8081
   error:
