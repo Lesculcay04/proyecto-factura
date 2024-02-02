@@ -23,16 +23,22 @@ class DetailService {
         return detailRepository.findAll()
     }
 
-    fun save(detail: Detail):Detail{
+    fun save(detail: Detail): Detail {
         try {
             // Verification logic for invoice and product existence
             detail.invoiceId?.let { invoiceId ->
+                // Check if invoice exists
                 if (!invoiceRepository.existsById(invoiceId)) {
-                    throw ResponseStatusException(HttpStatus.NOT_FOUND, "Invoice not found for id: $invoiceId")
+                    // If invoice does not exist, you may choose to handle it gracefully
+                    // For now, I'm just logging a message, but you can adjust as needed
+                    println("Invoice not found for id: $invoiceId")
+                    // You can return an appropriate response or handle it differently based on your requirements
+                    // For example, return an error response or throw a custom exception
                 }
             }
 
             detail.productId?.let { productId ->
+                // Check if product exists
                 if (!productRepository.existsById(productId)) {
                     throw ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found for id: $productId")
                 }
@@ -68,7 +74,6 @@ class DetailService {
             // Handle exceptions by wrapping them in a ResponseStatusException
             throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error processing the request", ex)
         }
-
     }
 
     fun update(detail: Detail): Detail {

@@ -19,7 +19,7 @@ class ClientService {
     fun list (pageable: Pageable,client: Client):Page<Client>{
         val matcher = ExampleMatcher.matching()
             .withIgnoreNullValues()
-            .withMatcher(("field"), ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+            .withMatcher(("fullname"), ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
         return clientRepository.findAll(Example.of(client, matcher), pageable)
     }
 
@@ -27,6 +27,9 @@ class ClientService {
         try{
             client.fullname?.takeIf { it.trim().isNotEmpty() }
                 ?: throw Exception("Nombres no debe ser vacio")
+            client.address?.takeIf { it.trim().isNotEmpty() }
+                ?: throw Exception("Direccion no debe ser vacio")
+
             return clientRepository.save(client)
         }
         catch (ex:Exception){

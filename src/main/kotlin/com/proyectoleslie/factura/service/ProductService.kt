@@ -40,6 +40,8 @@ class ProductService {
         try {
             product.stok?.takeIf { it >= 0 }
                 ?: throw IllegalArgumentException("Stock no debe ser menor a cero")
+            product.description?.takeIf { it.trim().isNotEmpty() }
+                ?: throw Exception("Nombres no debe ser vacio")
             return productRepository.save(product)
         }
         catch (ex:Exception){

@@ -31,8 +31,9 @@ class SecurityConfig {
             .authorizeHttpRequests{authRequest->
                 authRequest
                     .requestMatchers("/auth/**").permitAll()
-                    .requestMatchers(HttpMethod.GET,"/product/**").hasAnyRole("admin")
                     .requestMatchers(HttpMethod.GET,"/client/**").hasAnyRole("vendedor")
+                    .requestMatchers(HttpMethod.GET,"/invoice/**").hasAnyRole("vendedor")
+                    .requestMatchers(HttpMethod.GET,"/product/**").hasAnyRole("admin")
                     .anyRequest().denyAll()
             }
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter::class.java)
